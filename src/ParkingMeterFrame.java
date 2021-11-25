@@ -17,8 +17,9 @@ import java.util.concurrent.TimeUnit;
 public class ParkingMeterFrame extends javax.swing.JFrame {
     float price = 0;
     float howManyMinutes = 60; // it depends how much will customer pay check price list
-    String currentDate;
+    String currentTime;
     float addMinutes = 0;
+    
     
     
     /**
@@ -27,8 +28,8 @@ public class ParkingMeterFrame extends javax.swing.JFrame {
     public ParkingMeterFrame() {
         initComponents();
         date.setText(getCurrentDate());
-        currentDate = getCurrentTime();       
-        startTime.setText("Od "+currentDate);
+        currentTime = getCurrentTime();       
+        startTime.setText("Od "+currentTime);
         timeEnd.setText("do");
         
         
@@ -43,6 +44,7 @@ public class ParkingMeterFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFrame1 = new javax.swing.JFrame();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         date = new javax.swing.JLabel();
@@ -68,6 +70,17 @@ public class ParkingMeterFrame extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         reset = new javax.swing.JButton();
         ticketPrint = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
+        jFrame1.getContentPane().setLayout(jFrame1Layout);
+        jFrame1Layout.setHorizontalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jFrame1Layout.setVerticalGroup(
+            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -407,6 +420,7 @@ public class ParkingMeterFrame extends javax.swing.JFrame {
         System.out.println(howManyMinutes);
         priceLabel.setText(round(price,2)+ " zł");
         timeEnd.setText("do "+getEndTime(addMinutes));
+        
         ticketPrintValidation();
         
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -483,6 +497,10 @@ public class ParkingMeterFrame extends javax.swing.JFrame {
     
     private void ticketPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ticketPrintActionPerformed
         // it need to open new panel of ticket
+        String endTime = getEndTime(addMinutes);
+        String endDate = getEndDate(addMinutes);
+        printedTicket ticket = new printedTicket(registrationNumber.getText(),price,startTime.getText(),endTime, currentTime,date.getText(),endDate);
+        ticket.show();
         
     }//GEN-LAST:event_ticketPrintActionPerformed
 
@@ -507,6 +525,11 @@ public class ParkingMeterFrame extends javax.swing.JFrame {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
         LocalDateTime now = LocalDateTime.now();  
         return dtf.format(now);
+    }
+    private String getEndDate(float minutes){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
+        LocalDateTime now = LocalDateTime.now();  
+        return dtf.format(now.plusMinutes((long) minutes));
     }
     private String getCurrentTime(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
@@ -563,6 +586,7 @@ public class ParkingMeterFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
